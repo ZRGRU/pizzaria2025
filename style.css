@@ -1,5 +1,54 @@
 /* css/style.css */
 
+/* --- :root - Variáveis Globais --- */
+:root {
+  /* Cores Primárias e Secundárias */
+  --color-primary: #a62c1e; /* Vermelho mais terroso/escuro */
+  --color-primary-dark: #8c2318;
+  --color-primary-rgb: 166, 44, 30; /* Para usar com rgba() */
+  --color-secondary: #f39c12; /* Amarelo/Laranja queimado para acentos */
+  --color-secondary-dark: #e67e22;
+
+  /* Cores de Texto */
+  --color-text: #3a3a3a; /* Cinza escuro para texto principal */
+  --color-text-light: #f8f9fa; /* Texto claro para fundos escuros */
+  --color-text-muted: #6c757d; /* Texto secundário/muted */
+  --color-headings: #2c3e50; /* Um azul acinzentado escuro para títulos, ou usar o primário */
+
+  /* Cores de Fundo */
+  --bg-light: #fdfbf7;    /* Um off-white bem quente, quase creme */
+  --bg-medium: #f8f8f8;   /* O seu off-white anterior, para alternância */
+  --bg-dark: #343a40;     /* Fundo escuro para footer ou seções contrastantes */
+  --bg-card: #ffffff;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+  /* Bordas */
+  --border-color: #e0e0e0;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  /* Tipografia */
+  --font-primary: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-headings: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Pode ser diferente */
+  --line-height-base: 1.7; /* Um pouco mais espaçado para leitura */
+
+  /* Espaçamentos */
+  --spacing-xs: 0.5rem;  /* 8px */
+  --spacing-sm: 1rem;    /* 16px */
+  --spacing-md: 1.5rem;  /* 24px */
+  --spacing-lg: 2rem;    /* 32px */
+  --spacing-xl: 3rem;    /* 48px */
+  --spacing-section: 70px 0;
+
+  /* Transições */
+  --transition-base: all 0.3s ease-in-out;
+}
+
 /* --- Reset Básico e Padrões Gerais --- */
 * {
   margin: 0;
@@ -7,311 +56,406 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth; /* Rolagem suave para links âncora */
+}
+
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fonte mais neutra */
-  line-height: 1.6;
-  color: #333;
-  background-color: #f8f8f8; /* Fundo geral um pouco off-white */
+  font-family: var(--font-primary);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--bg-light);
+  -webkit-font-smoothing: antialiased; /* Melhora renderização de fontes */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--spacing-md); /* Usa variável para padding lateral */
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
   font-weight: bold;
-  line-height: 1.2;
+  line-height: 1.3;
+  color: var(--color-headings); /* Cor padrão para títulos */
+  margin-bottom: var(--spacing-sm);
 }
 
 section {
-    padding: 60px 0; /* Espaçamento padrão para seções */
+  padding: var(--spacing-section);
 }
 
 /* --- Cabeçalho e Navegação --- */
 header {
-  background-color: #fff; /* Fundo branco */
-  padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
-  position: sticky; /* Faz o menu ficar fixo no topo ao rolar */
+  background-color: var(--bg-card);
+  padding: var(--spacing-sm) 0;
+  box-shadow: var(--shadow-md);
+  position: sticky;
   top: 0;
-  z-index: 1000; /* Garante que fique acima de outros elementos */
+  z-index: 1000;
 }
 
-header .container { /* Para alinhar o conteúdo do header */
-    display: flex;
-    justify-content: center; /* Centraliza a navegação */
-    align-items: center;
+header .container {
+  display: flex;
+  justify-content: center; /* Centraliza a navegação (ou space-between se tiver logo) */
+  align-items: center;
 }
 
 header nav ul {
   list-style-type: none;
   padding-left: 0;
   text-align: center;
+  margin-bottom: 0; /* Remove margin-bottom padrão de ul */
 }
 
 header nav ul li {
   display: inline-block;
-  margin: 0 15px;
+  margin: 0 var(--spacing-sm);
 }
 
 header nav ul li a {
-  color: #333; /* Cor escura para contraste com fundo branco */
+  color: var(--color-text);
   text-decoration: none;
   font-weight: bold;
-  padding: 10px 5px;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-  border-bottom: 3px solid transparent; /* Espaço para a borda no hover */
+  padding: var(--spacing-xs) var(--spacing-xs);
+  transition: var(--transition-base);
+  border-bottom: 3px solid transparent;
+  position: relative; /* Para animação da borda */
 }
 
 header nav ul li a:hover,
-header nav ul li a:focus { /* Efeito ao passar mouse ou focar (acessibilidade) */
-  color: #e74c3c; /* Vermelho pizzaria */
-  border-bottom: 3px solid #e74c3c;
+header nav ul li a:focus,
+header nav ul li a.active { /* Adiciona classe 'active' para a página atual, se necessário */
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* Para acessibilidade, melhorando o foco */
+header nav ul li a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 
-/* === Estilizando a Seção Home com Imagem de Fundo === */
+/* === Seção Home === */
 section#home {
-  /* A imagem de fundo */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), /* Overlay escuro para legibilidade */
-                    url('img/pexels-eneida-nieves-905847.jpg'); /* Caminho para sua imagem */
-
-  /* Ajustes da imagem de fundo */
-  background-size: cover; /* Cobre toda a área da seção */
-  background-position: center center; /* Centraliza a imagem */
+  background-image: linear-gradient(rgba(var(--color-primary-rgb), 0.4), rgba(0,0,0, 0.7)),
+                    url('img/pexels-eneida-nieves-905847.jpg');
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* Efeito parallax (opcional, remova se não gostar) */
-
-  /* Estilos do conteúdo */
-  min-height: 80vh; /* Altura mínima (ajuste conforme necessário) */
-  display: flex; /* Para centralizar o conteúdo verticalmente/horizontalmente */
+  /* background-attachment: fixed; /* Pode causar issues em mobile, teste bem */
+  min-height: 90vh; /* Um pouco mais alto */
+  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #fff; /* Texto branco para contraste */
-  padding: 80px 20px; /* Espaçamento interno generoso */
+  color: var(--color-text-light);
+  padding: var(--spacing-xl) var(--spacing-md);
 }
 
-section#home .hero-content {
-    max-width: 700px; /* Limita largura do texto */
+section#home .hero-content { /* Certifique-se que a classe no HTML é hero-content */
+  max-width: 750px;
+  background-color: rgba(0,0,0,0.3); /* Fundo levemente translúcido para o texto destacar */
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
 }
 
 section#home h1 {
-  font-size: 3.5em; /* Título grande */
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Sombra no texto */
+  font-size: clamp(2.5em, 5vw, 4em); /* Fonte responsiva */
+  margin-bottom: var(--spacing-md);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  color: var(--color-text-light); /* Garante que use a cor clara */
 }
 
 section#home p {
-  font-size: 1.3em;
-  margin-bottom: 30px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  font-size: clamp(1.1em, 2.5vw, 1.4em); /* Fonte responsiva */
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+  line-height: 1.8;
 }
 
 section#home .cta-button {
   display: inline-block;
-  background-color: #e74c3c; /* Vermelho */
-  color: #fff;
-  padding: 15px 30px;
+  background-color: var(--color-secondary);
+  color: var(--color-text); /* Texto escuro no botão amarelo */
+  padding: var(--spacing-sm) var(--spacing-lg);
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius-sm);
   font-weight: bold;
   font-size: 1.1em;
-  border: 2px solid #e74c3c;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  border: 2px solid var(--color-secondary);
+  transition: var(--transition-base), transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-section#home .cta-button:hover {
-  background-color: #c0392b; /* Vermelho mais escuro */
-  border-color: #c0392b;
-  transform: translateY(-2px); /* Efeito leve de levantar */
+section#home .cta-button:hover,
+section#home .cta-button:focus {
+  background-color: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
+  color: var(--color-text-light);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: var(--shadow-md);
 }
 
 
-/* === Estilizando Títulos e Seções Gerais === */
-section {
-    padding: 60px 0; /* Espaçamento padrão */
+/* === Títulos de Seção e Fundos Alternados === */
+section:nth-of-type(even) {
+  background-color: var(--bg-card); /* Usar branco para seções pares */
 }
-section:nth-of-type(even) { /* Alterna cor de fundo */
-    background-color: #fff;
-}
-section:nth-of-type(odd):not(#home) { /* Seção ímpar que não seja a #home */
-    background-color: #f8f8f8;
+section:nth-of-type(odd):not(#home) {
+  background-color: var(--bg-light); /* Nosso off-white quente */
 }
 
 h2 { /* Estilo padrão para títulos de seção */
   text-align: center;
-  font-size: 2.8em;
-  margin-bottom: 40px;
-  color: #c0392b; /* Vermelho escuro */
-  position: relative; /* Para pseudo-elemento da linha */
-  padding-bottom: 15px;
+  font-size: clamp(2.2em, 4vw, 3em); /* Fonte responsiva */
+  margin-bottom: var(--spacing-xl); /* Mais espaço abaixo do H2 */
+  color: var(--color-primary);
+  position: relative;
+  padding-bottom: var(--spacing-md);
 }
 
-/* Adiciona uma linha decorativa abaixo do H2 */
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px; /* Largura da linha */
-    height: 4px; /* Espessura da linha */
-    background-color: #f1c40f; /* Amarelo */
-    border-radius: 2px;
+h2::after { /* Linha decorativa */
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background-color: var(--color-secondary);
+  border-radius: 2px;
 }
 
 
-/* === Estilos do Cardápio (Mantendo o Grid) === */
+/* === Cardápio === */
 #menu .menu-list {
   list-style-type: none;
   padding-left: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 colunas */
-  gap: 30px; /* Espaço aumentado */
+  /* grid-template-columns: repeat(2, 1fr); /* Original */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Mais responsivo */
+  gap: var(--spacing-lg);
 }
 
 #menu .menu-list li {
-  border: 1px solid #eee;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #fff;
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg); /* Bordas mais arredondadas */
+  background-color: var(--bg-card);
   text-align: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-base), transform 0.3s ease;
+  display: flex; /* Para melhor alinhamento interno */
+  flex-direction: column;
 }
 
 #menu .menu-list li:hover {
-    transform: translateY(-5px); /* Levanta um pouco no hover */
-    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
 }
 
 #menu .menu-list li img {
-  max-width: 100%;
-  height: 200px; /* Altura fixa para as imagens (ajuste!) */
-  object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+  width: 100%; /* Ocupa toda largura do card */
+  height: 220px;
+  object-fit: cover;
   display: block;
-  margin: 0 auto 15px auto;
-  border-radius: 5px;
+  margin: 0 auto var(--spacing-md) auto;
+  border-radius: var(--border-radius-md); /* Arredonda a imagem também */
 }
 
 #menu .menu-list li h3 {
-  color: #333;
-  margin-bottom: 8px;
-  font-size: 1.4em;
+  color: var(--color-headings);
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.5em;
 }
 
 #menu .menu-list li p {
-  font-size: 0.95em;
-  color: #555;
+  font-size: 1em;
+  color: var(--color-text-muted);
+  margin-bottom: 0; /* Remover se for o último elemento */
+  flex-grow: 1; /* Faz o parágrafo ocupar espaço, ajudando no alinhamento */
 }
 
 
-/* === Estilos da Seção Sobre Nós === */
-#about {
-    background-color: #f8f8f8; /* Cor de fundo suave */
-}
-#about p {
-  max-width: 800px; /* Limita largura do parágrafo */
-  margin: 0 auto;   /* Centraliza */
-  text-align: center;
-  font-size: 1.15em;
-  color: #444;
+/* === Estilos da Seção Sobre Nós (Centralizada) === */
+#about .container {
+    display: flex;
+    flex-direction: column; /* Empilha os filhos verticalmente */
+    align-items: center;   /* Centraliza os filhos horizontalmente */
 }
 
-
-/* === Estilos da Seção Contato === */
-#contact {
-    background-color: #fff;
-}
-
-#contact p { /* Parágrafo introdutório do contato */
+#about h2 { /* Estilo já deve ser herdado, mas para garantir */
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 1.1em;
-    color: #555;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-lg); /* Ajuste conforme necessário */
 }
 
-#contact address {
-  max-width: 700px;
-  margin: 0 auto;
+#about p {
+  /* max-width: 800px;         Limita a largura do parágrafo */
+  text-align: center;       /* Centraliza o texto dentro do parágrafo */
+  font-size: 1.2em;
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  margin-bottom: 0; /* Se for o último elemento no container */
+}
+
+
+/* === Estilos da Seção Contato (Centralizada) === */
+#contact .container {
+    display: flex;
+    /* flex-direction: column; Empilha os filhos verticalmente */
+    align-items: center;   /* Centraliza os filhos horizontalmente (o .intro-p e o bloco address) */
+}
+
+#contact p {
+  /* max-width: 800px;         Limita a largura do parágrafo */
+  text-align: center;       /* Centraliza o texto dentro do parágrafo */
+  font-size: 1.2em;
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-lg); /* Mais espaço abaixo do parágrafo */
+}
+
+#contact h2 { /* Estilo já deve ser herdado */
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md); /* Menos espaço antes do parágrafo intro */
+}
+
+#contact .intro-p {
+  max-width: 700px;         /* Limita a largura */
+  text-align: center;       /* Centraliza o texto dentro do parágrafo */
+  margin-bottom: var(--spacing-lg);
+  font-size: 1.15em;
+  color: var(--color-text-muted);
+}
+
+#contact address {       /* Limita a largura do bloco address */
+  width: 100%;              /* Faz ocupar a largura disponível até max-width */
+  /* O `align-items: center` no `#contact .container` já centraliza este bloco <address> */
   font-style: normal;
+  text-align: center;
   line-height: 1.8;
-  background-color: #fdfdfd; /* Fundo levemente diferente */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-  border: 1px solid #eee;
+  background-color: var(--bg-light); /* Um fundo sutilmente diferente para o card */
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
 }
 
 #contact address p {
-    margin-bottom: 15px;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
 }
 #contact address p:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #contact address strong {
-  color: #c0392b; /* Destaca os títulos (Endereço, Telefone...) */
-  margin-right: 5px;
-  display: inline-block; /* Garante que fiquem na linha */
-  width: 100px; /* Alinha os textos após o strong (ajuste se necessário) */
+  color: var(--color-primary);
+  margin-right: var(--spacing-xs);
+  /* display: inline-block; /* Mantido para alinhamento do strong com o texto seguinte, se na mesma linha */
 }
 
 #contact address a {
-  color: #e74c3c;
+  color: var(--color-secondary-dark);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: var(--transition-base);
+  font-weight: bold;
 }
 
-#contact address a:hover {
-  color: #c0392b;
+#contact address a:hover,
+#contact address a:focus {
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
-/* === Estilos do Rodapé === */
+/* Ajuste responsivo para o strong no address, se necessário */
+@media (max-width: 768px) {
+  #contact address strong {
+      display: block; /* Faz o strong ficar acima do texto em telas menores */
+      width: auto; /* Remove largura fixa se houver */
+      margin-bottom: var(--spacing-xs);
+  }
+}
+
+/* === Rodapé === */
 footer {
-  background-color: #333;
-  color: #ccc;
+  background-color: var(--bg-dark);
+  color: var(--color-text-light);
   text-align: center;
-  padding: 30px 0;
-  margin-top: 0; /* Remover margem se as seções já têm padding */
+  padding: var(--spacing-lg) 0 var(--spacing-md) 0; /* Ajuste padding */
   font-size: 0.9em;
+  margin-top: 0; /* Remover margem se as seções já têm padding */
+}
+footer p {
+    color: var(--color-text-muted); /* Cor mais suave para o texto do footer */
+    opacity: 0.8;
 }
 
-/* === (Opcional) Estilos Responsivos === */
-@media (max-width: 992px) { /* Ajustes para tablets */
-    #menu .menu-list {
-        grid-template-columns: repeat(2, 1fr); /* Mantém 2 colunas se couber */
-    }
-    section#home h1 { font-size: 3em; }
-    section#home p { font-size: 1.2em; }
-    h2 { font-size: 2.5em; }
+
+/* === Estilos Responsivos === */
+@media (max-width: 992px) { /* Tablets */
+  /* O grid do menu com auto-fit já se ajusta bem. */
+  /* section#home h1 { font-size: 3.2em; } /* Substituído por clamp() */
+  /* section#home p { font-size: 1.25em; } */
+  /* h2 { font-size: 2.6em; } */
 }
 
-@media (max-width: 768px) { /* Ajustes para celulares */
+@media (max-width: 768px) { /* Celulares */
+  body {
+    line-height: 1.6; /* Pode reduzir um pouco em telas menores */
+  }
+  
   header .container {
-      flex-direction: column; /* Logo/Título acima do menu */
+    flex-direction: column;
+  }
+  header nav ul {
+      margin-top: var(--spacing-sm); /* Espaço entre "logo/título" e nav */
   }
   header nav ul li {
-      margin: 5px 10px; /* Menor espaçamento no menu */
+    margin: var(--spacing-xs) var(--spacing-sm);
   }
 
-  #menu .menu-list {
-    grid-template-columns: 1fr; /* Apenas 1 coluna */
-    gap: 20px;
+  /* #menu .menu-list {
+    grid-template-columns: 1fr; /* auto-fit com minmax já cuida disso 
+    gap: var(--spacing-md);
+  } */
+
+  section#home {
+    min-height: 70vh;
+    padding: var(--spacing-lg) var(--spacing-md);
   }
+  /* section#home h1 { font-size: 2.5em; } /* Substituído por clamp() */
+  /* section#home p { font-size: 1.1em; } */
+  /* h2 { font-size: 2em; } */
 
-  section#home { min-height: 60vh; padding: 60px 20px;}
-  section#home h1 { font-size: 2.5em; }
-  section#home p { font-size: 1.1em; }
-  h2 { font-size: 2.2em; }
-
+  #contact address {
+    padding: var(--spacing-md);
+  }
   #contact address strong {
-      display: block; /* Faz o strong ficar acima do texto */
-      width: auto; /* Remove largura fixa */
-      margin-bottom: 5px;
+    display: block; /* Strong acima do texto em telas menores */
+
+    /* margin-bottom: var(--spacing-xs); */
   }
+}
+
+@media (max-width: 480px) { /* Celulares menores */
+    header nav ul li {
+        display: block; /* Menu empilhado */
+        margin: var(--spacing-sm) 0;
+    }
+    #menu .menu-list {
+        gap: var(--spacing-md);
+    }
+    #menu .menu-list li {
+        padding: var(--spacing-sm);
+    }
+    section#home .hero-content {
+        padding: var(--spacing-md);
+    }
 }
